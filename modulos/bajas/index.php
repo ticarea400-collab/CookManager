@@ -3,15 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/estilos.css">
-    <title>Inicio</title>
+    <title>Bajas</title>
 </head>
-<body class="dashAdm">
+<body>
     <section class="menu" id="mainMenu">
         <?php include('./includes/menuHamb.php') ?>
     </section>
-
-    <script src="./js/index.js"></script>
-
 </body>
 </html>

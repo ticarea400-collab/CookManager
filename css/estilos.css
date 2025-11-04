@@ -1,12 +1,14 @@
 /*GENERALIDADES*/
 :root {
     --white: #ffffff;
+    --Black: #000000;
     --Bg-color: #dbdbdb;
     --Gray-light: #D3D3D3;
     --card-bg-color: rgba(219, 219, 219, 0.75);
     --Orange: rgba(246, 181, 59, 0.959);
     --Red-dark: #ff0000;
     --Red-light: #ffeaea;
+    --Green: #0d9e06;
 }
 
 body {
@@ -22,6 +24,17 @@ body {
 
 h1 {
     padding: 10px;
+}
+
+a {
+    text-decoration: none;
+}
+
+/*Iconos*/
+.icons {
+    display: flex;
+    width: 50px;
+    height: 30px;
 }
 
 /*MENSAJES*/
@@ -50,13 +63,48 @@ h1 {
     margin: 0;
 }
 
-/*Inicio*/
+/*Botones*/
+.btonesMenu button {
+    border: 1px solid var(--Gray-light);
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+    padding: 10px 16px;
+    background-color: transparent;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    
+    a {
+        color: var(--Black);
+    }
+}
+
+.btonesMenu button:hover {
+    background-color: var(--Gray-light);
+    
+}
+
+/*Inicios*/
+.start,
+.dashAdm {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
 .start {
     background-image: url("../img/portada.png");
-    background-repeat: no-repeat;
-    position: center center;
-    background-size: cover;
-    background-attachment: fixed;
+}
+
+.dashAdm {
+    background-image: url("../img/portada3.png");
 }
 
 .logoSena {
@@ -139,5 +187,46 @@ form {
 
 .btonEnter:hover {
     cursor: pointer;
+}
+
+/*Inicio Administrador*/
+.menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    background-color: var(--Green);
+    min-height: 100vh;
+    padding: 16px;
+    box-sizing: border-box;
+    transition: width 0.3s ease;
+    max-height: 100vh; 
+    overflow-y: auto;
+    scrollbar-width: none; 
+}
+
+.menu::-webkit-scrollbar {
+    display: none;
+}
+
+#menuHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu-hidden #menuHeader h2,
+.menu-hidden .btonesMenu {
+    display: none;
+}
+
+.menu-hidden {
+    width: 60px;
+    overflow-y: hidden;
+}
+
+#hamburgerIcon {
+    cursor: pointer; 
 }
 
