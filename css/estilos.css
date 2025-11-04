@@ -84,6 +84,10 @@ a {
     }
 }
 
+.btonesMenu button.active-menu-item {
+    background-color: var(--Gray-light);
+}
+
 .btonesMenu button:hover {
     background-color: var(--Gray-light);
     

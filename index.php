@@ -1,5 +1,5 @@
 <?php
-include("./config/conection.php");
+include_once("./config/conection.php");
 session_start();
 
 //Redirigir
