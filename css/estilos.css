@@ -31,10 +31,15 @@ a {
 }
 
 /*Iconos*/
-.icons {
-    display: flex;
+.icons,
+.iconHamb {
     width: 50px;
     height: 30px;
+    position: relative;
+}
+
+.icons {
+    right: -150px;
 }
 
 /*MENSAJES*/
@@ -67,6 +72,7 @@ a {
 .btonesMenu button {
     border: 1px solid var(--Gray-light);
     display: flex;
+    flex-direction: row;
     align-items: center;
     margin: 8px 0;
     padding: 10px 16px;
@@ -74,10 +80,9 @@ a {
     border-radius: 8px;
     transition: background-color 0.2s;
     width: 100%;
-    flex-direction: row;
     justify-content: space-between;
-    align-items: center;
     cursor: pointer;
+    position: relative;
     
     a {
         color: var(--Black);
@@ -90,7 +95,18 @@ a {
 
 .btonesMenu button:hover {
     background-color: var(--Gray-light);
-    
+}
+
+.menu-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 20px;
 }
 
 /*Inicios*/

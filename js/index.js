@@ -1,14 +1,16 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Solo se usa en el dashboard
-    const menu = document.getElementById('mainMenu');
+    // --- LÓGICA DEL MENÚ HAMBURGUESA ---
+    const menu = document.getElementById('mainMenu'); // El contenedor <section class="menu" id="mainMenu">
     const hamburger = document.getElementById('hamburgerIcon');
+
     if (menu && hamburger) {
         hamburger.addEventListener('click', function() {
-            menu.classList.toggle('menu-hidden');
+            // Aplicamos 'menu-hidden' al contenedor principal del menú
+            menu.classList.toggle('menu-hidden'); 
         });
     }
 
-    // Solo se usa en el login
+    // --- LÓGICA DE LOGIN (Control de Visibilidad de Contraseña) ---
     const togglePassword = document.querySelector("#togglePassword");
     const password = document.querySelector("#pass");
 

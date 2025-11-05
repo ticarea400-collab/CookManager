@@ -36,7 +36,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         
                     //REDIRECCIÓN SEGÚN EL ROL
                     switch ($user_data['rol']) {
-                        case 'Super Admin':
+                        case 'SuperAdmin':
                             header("Location: ./SuperAdmin/dashboard.php");
                             break;
                             
