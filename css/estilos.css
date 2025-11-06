@@ -3,9 +3,11 @@
     --white: #ffffff;
     --Black: #000000;
     --Bg-color: #dbdbdb;
+    --Gray: #333;
     --Gray-light: #D3D3D3;
     --card-bg-color: rgba(219, 219, 219, 0.75);
     --Orange: rgba(246, 181, 59, 0.959);
+    --Orange-dark: #FE7F01;
     --Red-dark: #ff0000;
     --Red-light: #ffeaea;
     --Green: #0d9e06;
@@ -18,7 +20,6 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    /* Centra el contenedor principal horizontalmente (y empuja el texto abajo) */
     align-items: center; 
 }
 
@@ -26,11 +27,97 @@ h1 {
     padding: 10px;
 }
 
+h2 {
+    color: var(--Orange-dark);
+    font-weight: 900;
+    font-size:xx-large;   
+}
+
 a {
     text-decoration: none;
 }
 
-/*Iconos*/
+table {
+    width: 95%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px; 
+    overflow: hidden; 
+    font-family: Arial, sans-serif;
+}
+
+/* --- ESTILOS DE LA CABECERA (THEAD) --- */
+table thead {
+    background-color: var(--Orange-dark); 
+    color: var(--white);
+    height: 50px;
+}
+
+table thead tr th {
+    padding: 12px 15px;
+    font-weight: bold;
+    text-align: left;
+}
+
+table tbody tr {
+    border-bottom: 1px solid var(--Bg-color);
+    transition: background-color 0.2s ease;
+}
+
+/* Filas alternas (para el efecto de rayas en el fondo) */
+table tbody tr:nth-of-type(even) {
+    background-color: var(--Light-gray); 
+}
+
+/* Efecto hover */
+table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+table tbody tr td {
+    padding: 10px 15px;
+    vertical-align: middle;
+    font-size: 0.95em;
+    color: var(--Gray);
+}
+
+/* Centrar la columna de acciones */
+table tbody tr td:last-child {
+    text-align: center;
+}
+
+/* Estilos para los botones de la tabla */
+table button {
+    padding: 5px 10px;
+    margin: 3px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+table button.edit {
+    background-color: var(--Orange); 
+    color: white;
+}
+
+table button.edit:hover {
+    background-color: #e68a2e; 
+}
+
+table button.eliminate {
+    background-color: #ff4d4d; 
+    color: white;
+}
+
+table button.eliminate:hover {
+    background-color: var(--Red-dark); 
+}
+
+
+/*ICONOS*/
 .icons,
 .iconHamb {
     width: 50px;
@@ -68,7 +155,7 @@ a {
     margin: 0;
 }
 
-/*Botones*/
+/*BOTONES*/
 .btonesMenu button {
     border: 1px solid var(--Gray-light);
     display: flex;
@@ -109,7 +196,7 @@ a {
     padding-left: 20px;
 }
 
-/*Inicios*/
+/*INICIOS*/
 .start,
 .dashAdm {
     background-repeat: no-repeat;
@@ -157,7 +244,7 @@ a {
     height: auto;
 }
 
-form {
+.login {
     padding: 20px;
     margin: 10px;
 }
@@ -236,7 +323,7 @@ form {
     align-items: center;
 }
 
-.menu-hidden #menuHeader h2,
+.menu-hidden #menuHeader h1,
 .menu-hidden .btonesMenu {
     display: none;
 }
@@ -249,4 +336,161 @@ form {
 #hamburgerIcon {
     cursor: pointer; 
 }
+
+/*MODULO/USUARIOS*/
+.module,
+.module div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+}
+
+.module {
+    background-color: var(--Gray-light);
+    max-width: 550px; /* Tamaño medio para formulario */
+    width: 100%;
+    height: 400px;
+    border: 1px solid #e0e0e0;
+    margin: 30px auto; 
+    padding: 25px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Sombra suave para efecto flotante */
+
+    div {
+        background-color: var(--white);
+        width: 690px;    
+        flex-direction: column;
+    }
+}
+
+
+.module h2 {
+    color: var(--Orange-dark);
+    font-size: 1.8em;
+    font-weight: 700;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+    text-align: center;
+}
+
+.module form table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.module form table tr td {
+    padding: 12px 0; 
+    border-bottom: 1px dotted #dddddd;
+}
+
+.module form table tr:last-child td {
+    border-bottom: none; 
+}
+
+.module form table tr td:first-child {
+    font-weight: 600;
+    color: var(--Dark-text);
+    width: 35%; 
+    text-align: right;
+    padding-right: 25px;
+    vertical-align: top; 
+}
+
+.module form input[type="text"],
+.module form input[type="email"],
+.module form input[type="password"],
+.module form select {
+    width: 100%; 
+    max-width: 300px; 
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px; 
+    font-size: 1em;
+    box-sizing: border-box; 
+    transition: all 0.2s ease-in-out;
+}
+
+.module form input:focus,
+.module form select:focus {
+    border-color: var(--Orange-dark);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(204, 102, 0, 0.2);
+}
+
+.module form button[type="submit"] {
+    display: block;
+    width: 60%; 
+    max-width: 300px;
+    margin: 35px auto 10px auto; 
+    padding: 14px 25px;
+    background-color: var(--Orange-dark);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.module form button[type="submit"]:hover {
+    background-color: #a35200; 
+    transform: translateY(-2px); 
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.table-scroll {
+    width: 95%;
+    margin: 30px auto;
+    max-height: 400px;
+    overflow-y: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: var(--white);
+    border: 1px solid #ddd;
+}
+
+/* Hacer que el título se quede fijo dentro del scroll */
+.table-scroll h2 {
+    background: var(--white);
+    padding: 10px 0;
+    margin: 0;
+    text-align: center;
+    border-bottom: 2px solid #ccc;
+    position: relative; /* Importante: evita que interfiera con el thead */
+    z-index: 1;
+}
+
+/* La tabla dentro del contenedor scrollable */
+.table-scroll table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+}
+
+/* Fijar el encabezado de la tabla */
+.table-scroll thead th {
+    position: sticky;
+    top: 0;
+    background: var(--Orange-dark);
+    color: var(--white);
+    z-index: 2;
+}
+
+/* Scrollbar opcional */
+.table-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+.table-scroll::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+}
+
+
+
+
 

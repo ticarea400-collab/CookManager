@@ -88,7 +88,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             <?php endif; ?>
 
-            <form action="" method="POST">
+            <form action="" method="POST" class="login">
                 <input type="text" id="usuario" name="usuario" placeholder="Usuario" required/>
 
                 <!-- Contenedor del campo de contraseña con ícono de alternar visibilidad -->

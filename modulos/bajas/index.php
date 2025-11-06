@@ -17,5 +17,6 @@ include_once('../../config/conection.php');
     </section>
 
     <h1>Desde bajas</h1>
+
 </body>
 </html>
