@@ -7,9 +7,17 @@ verificar_rol('SuperAdmin');
 $errors = [];
 $success = '';
 
-if (isset($_GET['success']) && $_GET['success'] == 1) {
-    $success = "Usuario creado con éxito.";
+if (isset($_GET['success'])) {
+    switch ($_GET['success']) {
+        case 'created':
+            $success = "✅ Usuario creado con éxito.";
+            break;
+        case 'deleted':
+            $success = "🗑️ Usuario eliminado correctamente.";
+            break;
+    }
 }
+
 
 if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_usuario'])) {
     //Obtener datos
@@ -35,7 +43,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_usuario'])) {
             $stmt->bind_param('ssss', $nombre_usuario, $usuario, $hash_pass, $rol);
 
             if($stmt->execute()) {
-                header("Location: " . $_SERVER['PHP_SELF'] . "?success=1");
+                header("Location: " . $_SERVER['PHP_SELF'] . "?success=created");
                 exit;
             } else {
                 if ($conn->errno == 1062) {
@@ -51,26 +59,32 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_usuario'])) {
     }
 }
 
-//Eliminar
-if(isset($_POST['eliminar_usuario'])) {
-    $id = intval($_POST['id']);
-}
+//Eliminar usuario con GET
+if (isset($_GET['action']) && $_GET['action'] === 'eliminar' && isset($_GET['id'])) {
+    $id = intval($_GET['id']);
 
-if($id === $_SESSION['user_id']) {
-    $errors[] = "No puedes eliminar tu propio usuario.";
-} else {
-    $sql = "DELETE FROM usuarios WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param('i', $id);
-
-    if($stmt->execute()) {
-        $success = "Usuario eliminado correctamente.";
+    if ($id === $_SESSION['user_id']) {
+        $errors[] = "No puedes eliminar tu propio usuario.";
     } else {
-        $errors[] = "Error al eliminar: " . $stmt->error;
-    }
+        $sql = "DELETE FROM usuarios WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('i', $id);
 
-    $stmt->close();
+        if ($stmt->execute()) {
+            $success = "Usuario eliminado correctamente.";
+    
+            if ($stmt->execute()) {
+                header("Location: " . $_SERVER['PHP_SELF'] . "?success=deleted");
+                exit;
+            }
+        } else {
+            $errors[] = "Error al eliminar el usuario: " . $stmt->error;
+        }
+
+        $stmt->close();
+    }
 }
+
 
 //Mostrar Datos
 $usuarios = [];
@@ -120,7 +134,7 @@ $roles_disponibles = ['SuperAdmin', 'Administrador', 'Contratista'];
                 </div>
             <?php elseif (!empty($success)): ?>
                 <div>
-                    <p>✅ <?= htmlspecialchars($success) ?></p>
+                    <p> <?= htmlspecialchars($success) ?></p>
                 </div>
             <?php endif; ?>
 
@@ -184,7 +198,9 @@ $roles_disponibles = ['SuperAdmin', 'Administrador', 'Contratista'];
                             <a href="editar.php?id=<?= $user['id']?>">
                                 <button type="button" class="edit">Editar</button>
                             </a> 
-                            <a href="">
+                            <a href="?action=eliminar&id=<?= $user['id'] ?>" 
+                            class="eliminate" 
+                            onclick="return confirm('¿Seguro que deseas eliminar este usuario?');">
                                 <button type="button" class="eliminate">Eliminar</button>
                             </a>
                         </td>
@@ -198,5 +214,12 @@ $roles_disponibles = ['SuperAdmin', 'Administrador', 'Contratista'];
         </div>
     </div>
     </section>
+
+    <script>
+        if (window.location.search.includes('success=')) {
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    </script>
+
 </body>
 </html>
