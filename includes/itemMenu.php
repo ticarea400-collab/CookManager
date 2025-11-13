@@ -3,18 +3,9 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+$BASE_URL = 'http://localhost/COOKMANAGER';
 $urlActual = $_SERVER['REQUEST_URI'];
-$BASE_URL = defined('BASE_URL') ? BASE_URL : '';
-
 $path = $_SERVER['PHP_SELF'];
-
-// Si estamos dentro de cualquier carpeta que no sea la raíz
-if (strpos($path, '/SuperAdmin/') !== false || strpos($path, '/Administrador/') !== false ) {
-    $ruta_base = '../';
-} else {
-    $ruta_base = './';
-}
-
 
 // -----------------------------------------------------------------------------------
 // 1. DEFINICIÓN DE ITEMS
@@ -107,11 +98,17 @@ $items = $items_filtrados;
 
 foreach ($items as $key => $item) {
     if (isset($item['path']) && $item['path'] !== '') {
-        $items[$key]['active'] = (strpos($urlActual, $item['path']) !== false);
+        if ($item['path'] === '/index.php') {
+            // Solo marcar activo si estamos exactamente en index.php
+            $items[$key]['active'] = basename($urlActual) === '/index.php';
+        } else {
+            $items[$key]['active'] = (strpos($urlActual, $item['path']) !== false);
+        }
+
         $items[$key]['url'] = $BASE_URL . $item['path'];
     } else {
         $items[$key]['active'] = false;
-        $items[$key]['url'] = '#'; // O la URL de tu acción de salida
+        $items[$key]['url'] = '/index.php'; // O la URL de tu acción de salida
     }
 }
 

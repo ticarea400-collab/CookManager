@@ -177,7 +177,7 @@ $roles_disponibles = ['SuperAdmin', 'Administrador', 'Contratista'];
     <div>
         <h2>Usuarios Registrados (<?= count($usuarios) ?>)</h2>
         
-        <div class="table-scroll">
+        <div class="table-wrapper">
             <?php if(!empty($usuarios)): ?>
             <table>
                 <thead>
@@ -188,26 +188,31 @@ $roles_disponibles = ['SuperAdmin', 'Administrador', 'Contratista'];
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody>
-                <?php foreach($usuarios as $user): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($user['nombre_usuario'])?></td>
-                        <td><?= htmlspecialchars($user['usuario']) ?></td>
-                        <td><?= htmlspecialchars($user['rol']) ?></td>
-                        <td>
-                            <a href="editar.php?id=<?= $user['id']?>">
-                                <button type="button" class="edit">Editar</button>
-                            </a> 
-                            <a href="?action=eliminar&id=<?= $user['id'] ?>" 
-                            class="eliminate" 
-                            onclick="return confirm('¿Seguro que deseas eliminar este usuario?');">
-                                <button type="button" class="eliminate">Eliminar</button>
-                            </a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-                </tbody>
             </table>
+            <div class="table-scroll">
+                <table class="table-body">
+                    <tbody>
+                        <?php foreach($usuarios as $user): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($user['nombre_usuario'])?></td>
+                                <td><?= htmlspecialchars($user['usuario']) ?></td>
+                                <td><?= htmlspecialchars($user['rol']) ?></td>
+                                <td>
+                                    <a href="editar.php?id=<?= $user['id']?>">
+                                        <button type="button" class="edit">Editar</button>
+                                    </a> 
+                                    <a href="?action=eliminar&id=<?= $user['id'] ?>" 
+                                    class="eliminate" 
+                                    onclick="return confirm('¿Seguro que deseas eliminar este usuario?');">
+                                        <button type="button" class="eliminate">Eliminar</button>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </table>
+            </div>
             <?php else: ?>
                 <p>No hay usuarios registrados en la base de datos.</p>
             <?php endif; ?>

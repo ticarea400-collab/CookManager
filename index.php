@@ -2,11 +2,7 @@
 include_once("./config/conection.php");
 session_start();
 
-//Redirigir
-if(isset($_SESSION['user_id'])) {
-    header('location: dashboard.php');
-    exit();
-}
+
 
 $usuario_input = isset($_POST['usuario']) ? htmlspecialchars(trim($_POST['usuario'])) : '';
 $contrasena_input = isset($_POST['pass']) ? $_POST['pass'] : '';

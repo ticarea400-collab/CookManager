@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 // 2. VALIDACIÓN DE ACCESO Y ROL
 
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'SuperAdmin') {
-    header("Location: /index.php"); 
+    header("Location: ../index.php"); 
 
     exit;
 }

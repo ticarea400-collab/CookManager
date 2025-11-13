@@ -30,13 +30,15 @@ h1 {
 h2 {
     color: var(--Orange-dark);
     font-weight: 900;
-    font-size:xx-large;   
+    font-size:xx-large;
+    margin-bottom: 0;  
 }
 
 a {
     text-decoration: none;
 }
 
+/*TABLA*/
 table {
     width: 95%;
     border-collapse: collapse;
@@ -114,6 +116,54 @@ table button.eliminate {
 
 table button.eliminate:hover {
     background-color: var(--Red-dark); 
+}
+
+.table-wrapper {
+  width: 95%;
+  margin: 0px auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--white);
+  border: 1px solid #ddd;
+  overflow: hidden;
+}
+
+.table-head th {
+  background-color: var(--Orange-dark);
+  color: var(--white);
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: bold;
+}
+
+.table-head {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-scroll {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.table-body {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-body td {
+  padding: 10px 15px;
+  color: var(--Gray);
+  font-size: 0.95em;
+  border-bottom: 1px solid #ddd;
+}
+
+.table-body tr:nth-child(even) {
+  background-color: var(--Light-gray);
+}
+
+.table-body tr:hover {
+  background-color: #f1f1f1;
 }
 
 
@@ -443,52 +493,6 @@ table button.eliminate:hover {
     box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
 
-.table-scroll {
-    width: 95%;
-    margin: 30px auto;
-    max-height: 400px;
-    overflow-y: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: var(--white);
-    border: 1px solid #ddd;
-}
-
-/* Hacer que el título se quede fijo dentro del scroll */
-.table-scroll h2 {
-    background: var(--white);
-    padding: 10px 0;
-    margin: 0;
-    text-align: center;
-    border-bottom: 2px solid #ccc;
-    position: relative; /* Importante: evita que interfiera con el thead */
-    z-index: 1;
-}
-
-/* La tabla dentro del contenedor scrollable */
-.table-scroll table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 0;
-}
-
-/* Fijar el encabezado de la tabla */
-.table-scroll thead th {
-    position: sticky;
-    top: 0;
-    background: var(--Orange-dark);
-    color: var(--white);
-    z-index: 2;
-}
-
-/* Scrollbar opcional */
-.table-scroll::-webkit-scrollbar {
-    width: 8px;
-}
-.table-scroll::-webkit-scrollbar-thumb {
-    background-color: #ccc;
-    border-radius: 4px;
-}
 
 
 
