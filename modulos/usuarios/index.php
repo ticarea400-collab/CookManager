@@ -220,6 +220,12 @@ $roles_disponibles = ['SuperAdmin', 'Administrador', 'Contratista'];
     </div>
     </section>
 
+    <div class="export-container">
+        <form action="exportar_usuarios.php" method="post">
+            <button type="submit" class="export-btn">📦 Exportar a Excel</button>
+        </form>
+    </div>
+
     <script>
         if (window.location.search.includes('success=')) {
             window.history.replaceState({}, document.title, window.location.pathname);

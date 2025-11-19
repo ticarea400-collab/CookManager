@@ -17,7 +17,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center; 
@@ -37,6 +37,30 @@ h2 {
 a {
     text-decoration: none;
 }
+
+/* BARRA DE BUSQUEDA*/
+.search-bar {
+    width: 95%;
+    margin: 20px auto;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.search-bar input {
+    width: 60%;
+    padding: 10px 15px;
+    border: 2px solid var(--Orange-dark);
+    border-radius: 8px;
+    font-size: 1em;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.search-bar input:focus {
+    border-color: var(--Orange);
+    box-shadow: 0 0 5px rgba(255, 140, 0, 0.5);
+}
+
 
 /*TABLA*/
 table {
@@ -119,51 +143,54 @@ table button.eliminate:hover {
 }
 
 .table-wrapper {
-  width: 95%;
-  margin: 0px auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: var(--white);
-  border: 1px solid #ddd;
-  overflow: hidden;
+    width: 100%;
+    margin: 0px auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: var(--white);
+    border: 1px solid #ddd;
+    overflow: hidden;
 }
 
 .table-head th {
-  background-color: var(--Orange-dark);
-  color: var(--white);
-  padding: 12px 15px;
-  text-align: left;
-  font-weight: bold;
+    background-color: var(--Orange-dark);
+    justify-content: space-between;
+    color: var(--white);
+    padding: 12px 15px;
+    text-align: center;
+    font-weight: bold;
 }
 
 .table-head {
-  width: 100%;
-  border-collapse: collapse;
+    width: 100%;
+    border-collapse: collapse;
 }
 
 .table-scroll {
-  max-height: 300px;
-  overflow-y: auto;
+    max-height: auto;
+    overflow-y: auto;
 }
 
 .table-body {
-  width: 100%;
-  border-collapse: collapse;
+    width: 100%;
+    border-collapse: collapse;
 }
 
 .table-body td {
-  padding: 10px 15px;
-  color: var(--Gray);
-  font-size: 0.95em;
-  border-bottom: 1px solid #ddd;
+    width: 40%;
+    padding: 10px 15px;
+    color: var(--Gray);
+    font-size: 0.95em;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
 }
 
 .table-body tr:nth-child(even) {
-  background-color: var(--Light-gray);
+    background-color: var(--Light-gray);
 }
 
 .table-body tr:hover {
-  background-color: #f1f1f1;
+    background-color: #f1f1f1;
 }
 
 
@@ -245,6 +272,29 @@ table button.eliminate:hover {
     align-items: center;
     padding-left: 20px;
 }
+
+.export-container {
+    width: 95%;
+    margin: 10px auto;
+    text-align: right;
+}
+
+.export-btn {
+    background-color: var(--Orange-dark);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.export-btn:hover {
+    background-color: var(--Orange);
+}
+
 
 /*INICIOS*/
 .start,
@@ -398,9 +448,9 @@ table button.eliminate:hover {
 
 .module {
     background-color: var(--Gray-light);
-    max-width: 550px; /* Tamaño medio para formulario */
+    max-width: 550px;
     width: 100%;
-    height: 400px;
+    height: auto;
     border: 1px solid #e0e0e0;
     margin: 30px auto; 
     padding: 25px;
@@ -493,6 +543,28 @@ table button.eliminate:hover {
     box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* MODULO BAJAS*/
+.form-baja {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    input {
+        height: 15px;
+        border-radius: 3px;
+    }
+
+}
+
+.form-baja label {
+    padding: 10px;
+    margin: 10px;
+}
+
+.baja_item {
+    margin-bottom: 10px;
+}
 
 
 

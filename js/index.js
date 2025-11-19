@@ -23,4 +23,18 @@ document.addEventListener("DOMContentLoaded", function() {
             this.classList.toggle('fa-eye-slash');
         });
     }
+
+    // --LÓGICA DE LA BARRA DE BUSQUEDA
+    const input = document.getElementById('searchInput');
+    const table = document.getElementById('inventoryTable');
+    const rows = table ? table.querySelectorAll('tbody tr') : [];
+
+    input.addEventListener('keyup', () => {
+        const filter = input.value.toLowerCase().trim();
+
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(filter) ? '' : 'none';
+        });
+    });
 });
