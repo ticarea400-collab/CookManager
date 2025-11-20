@@ -11,6 +11,7 @@
     --Red-dark: #ff0000;
     --Red-light: #ffeaea;
     --Green: #0d9e06;
+    --Green-light: #BBF451;
 }
 
 body {
@@ -64,7 +65,7 @@ a {
 
 /*TABLA*/
 table {
-    width: 95%;
+    width: 100%;
     border-collapse: collapse;
     margin: 20px auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -78,12 +79,13 @@ table thead {
     background-color: var(--Orange-dark); 
     color: var(--white);
     height: 50px;
+    margin: 0;
 }
 
 table thead tr th {
     padding: 12px 15px;
     font-weight: bold;
-    text-align: left;
+    text-align: center;
 }
 
 table tbody tr {
@@ -106,6 +108,7 @@ table tbody tr td {
     vertical-align: middle;
     font-size: 0.95em;
     color: var(--Gray);
+    text-align: center;
 }
 
 /* Centrar la columna de acciones */
@@ -154,11 +157,32 @@ table button.eliminate:hover {
 
 .table-head th {
     background-color: var(--Orange-dark);
-    justify-content: space-between;
     color: var(--white);
     padding: 12px 15px;
-    text-align: center;
+    text-align: left;
     font-weight: bold;
+}
+
+.table-head,
+.table-body {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* IMPORTANTE: Esto fuerza anchos fijos */
+}
+
+.table-head th:nth-child(1),
+.table-body td:nth-child(1) {
+    width: 40%; /* Elemento */
+}
+
+.table-head th:nth-child(2),
+.table-body td:nth-child(2) {
+    width: 30%; /* Cantidad */
+}
+
+.table-head th:nth-child(3),
+.table-body td:nth-child(3) {
+    width: 30%; /* Fecha de entrada */
 }
 
 .table-head {
@@ -167,17 +191,20 @@ table button.eliminate:hover {
 }
 
 .table-scroll {
-    max-height: auto;
+    max-height: 400px;
     overflow-y: auto;
+    overflow-x: hidden;
+    width: calc(100% + 17px); /* Compensa el ancho de la scrollbar */
+    margin-right: -17px;
 }
 
 .table-body {
     width: 100%;
     border-collapse: collapse;
+    table-layout:inherit;
 }
 
 .table-body td {
-    width: 40%;
     padding: 10px 15px;
     color: var(--Gray);
     font-size: 0.95em;
@@ -213,16 +240,27 @@ table button.eliminate:hover {
     height: 25px;
 }
 
-.errors {
+.errors,
+.success {
     display: flex;
-    background-color: var(--Red-light);
-    border: 1px solid  var(--Red-dark);
-    color: var(--Red-dark); 
     padding: 10px;
     margin-bottom: 20px; 
     border-radius: 10px;
     font-size: 1.1em;
-    text-align: left;
+    text-align: center;
+    justify-content: center;
+}
+
+.errors {
+    background-color: var(--Red-light);
+    border: 1px solid  var(--Red-dark);
+    color: var(--Red-dark); 
+}
+
+.success {
+    background-color: var(--Green-light);
+    border: var(--Green);
+    color: var(--Green);
 }
 
 .errors p {
@@ -440,13 +478,13 @@ table button.eliminate:hover {
 /*MODULO/USUARIOS*/
 .module,
 .module div {
-    display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 5px;
 }
 
 .module {
+    display: flex;
     background-color: var(--Gray-light);
     max-width: 550px;
     width: 100%;
@@ -565,8 +603,3 @@ table button.eliminate:hover {
 .baja_item {
     margin-bottom: 10px;
 }
-
-
-
-
-

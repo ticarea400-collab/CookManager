@@ -13,9 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $baja = (int) $_POST['baja'];
 
     // Obtener cantidad actual del elemento
-    $sql_check = "SELECT cantidad FROM inventario WHERE elementos = ?";
+    $sql_check = "SELECT cantidad FROM inventario WHERE id = ?";
     $stmt = $conn->prepare($sql_check);
-    $stmt->bind_param("s", $elemento);
+    $stmt->bind_param("i", $elemento);
     $stmt->execute();
     $stmt->bind_result($cantidad_actual);
     $stmt->fetch();
@@ -29,9 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "No puedes dar de baja más de lo que hay en inventario.";
     } else {
         // Actualizar inventario
-        $sql_update = "UPDATE inventario SET cantidad = cantidad - ? WHERE elementos = ?";
+        $sql_update = "UPDATE inventario SET cantidad = cantidad - ? WHERE id = ?";
         $stmt = $conn->prepare($sql_update);
-        $stmt->bind_param("is", $baja, $elemento);
+        $stmt->bind_param("ii", $baja, $elemento);
         $stmt->execute();
         $stmt->close();
 
@@ -118,7 +118,7 @@ $conn->close();
             </select>
 
             <label>Cantidad a dar de baja:</label>
-            <input type="number" name="baja" min="1" required >
+            <input type="number" name="baja" min="1" required>
 
             <button type="submit" class="btn-baja">Registrar Baja</button>
         </form>
@@ -157,5 +157,11 @@ $conn->close();
         </div>
     </div>
 </section>
+
+<div class="export-container">
+    <form action="exportar_bajas.php" method="post">
+        <button type="submit" class="export-btn">📦 Exportar a Excel</button>
+    </form>
+</div>
 </body>
 </html>

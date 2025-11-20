@@ -1,5 +1,8 @@
 <?php 
 include_once('../../config/conection.php');
+include_once('../../config/verificar_acceso.php');
+
+verificar_rol('Administrador');
 ?>
 
 <!DOCTYPE html>

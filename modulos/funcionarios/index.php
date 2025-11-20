@@ -2,7 +2,7 @@
 include_once('../../config/conection.php');
 include_once('../../config/verificar_acceso.php');
 
-verificar_rol('SuperAdmin', 'Administrador');
+verificar_rol('SuperAdmin' , 'Administrador');
 
 $errors = [];
 $success = '';
