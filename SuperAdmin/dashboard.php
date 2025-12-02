@@ -13,7 +13,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'SuperAdmin') {
 
 include_once('../config/conection.php');
 
-$nombre_user = $_SESSION['nombre_usuario'] ?? 'Usuario Desconocido';
+$nombre_user = $_SESSION['usuario'] ?? 'Usuario Desconocido';
 
 ?>
 

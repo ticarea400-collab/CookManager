@@ -12,7 +12,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     if(empty($usuario_input) || empty($contrasena_input)) {
         $errors[] = "Por favor ingresar su usuario y contraseña.";
     } else {
-        $sql = "SELECT id, usuario, rol, pass FROM usuarios WHERE usuario = ?";      
+        $sql = "SELECT * FROM usuarios WHERE usuario = ?";      
 
         if($stmt = $conn->prepare($sql)) {
             $stmt->bind_param('s', $usuario_input);
@@ -26,7 +26,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if(password_verify($contrasena_input, $hash_contrasena)) {
                     session_regenerate_id(true);
         
-                    $_SESSION['usuario'] = $user_data['nombre'];
+                    $_SESSION['usuario'] = $user_data['nombre_usuario'];
                     $_SESSION['rol'] = $user_data['rol'];
                     $_SESSION['user_id'] = $user_data['id'];
         
