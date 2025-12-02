@@ -31,7 +31,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_instructor'])) {
         $result_verify = mysqli_query($conn, $sql_verify);
         
         if(mysqli_num_rows($result_verify) == 0) {
-            $sql_insert = "INSERT INTO docentes (nombre) VALUES ('$nombre')";
+            $sql_insert = "INSERT INTO docentes (nombre , curso) VALUES ('$nombre' , '$curso')";
             mysqli_query($conn, $sql_insert);
             header("Location: " . $_SERVER['PHP_SELF'] . "?success=created");
         } else {

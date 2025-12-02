@@ -6,13 +6,13 @@ verificar_rol('Administrador');
 
 $errors = [];
 $success = '';
-$instrucotr_data = [];
+$instructor_data = [];
 
 if(isset($_GET['id'])) {
     $id = intval($_GET['id']);
     $sql = "SELECT id, nombre, curso FROM docentes WHERE id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param('id', $id);
+    $stmt->bind_param('i', $id);
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -22,7 +22,6 @@ if(isset($_GET['id'])) {
         $errors[] = "Instructor no encontrado.";
     }
 
-    $stmt->close();
 } else {
     $errors[] = "No se proporciono un ID válido";
 }
@@ -38,7 +37,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                         SET nombre = ?, curso = ?
                         WHERE id = ?";
         
-        $stmt_update = $conn->prepare($sql_update);
+        $stmt = $conn->prepare($sql_update);
         $stmt->bind_param("ssi", $nombre, $curso, $id);
         $stmt->execute();
 
@@ -53,10 +52,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/estilos.css">
     <title>Editar instructor</title>
 </head>
 
-<body class="dashAdmin">
+<body class="dashAdm">
     <section class="module">
         <div>
             <h2>Editar Instructor</h2>
@@ -73,22 +73,24 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             <?php endif; ?>
 
+            <?php if(!empty($instructor_data)): ?>
             <form method="POST" action="">
-                <input type="hidden" name="id" value="">
+                <input type="hidden" name="id" value="<?= htmlspecialchars($instructor_data['id']) ?>">
 
                 <table>
                     <tr>
                         <td><label for="nombre">Nombre:</label></td>
-                        <td><input type="text" name="nombre" id="nombre" value=""></td>
-
+                        <td><input type="text" name="nombre" id="nombre" value="<?= htmlspecialchars($instructor_data['nombre']) ?>"></td>
+                    </tr>
+                    <tr>
                         <td><label for="curso">Curso:</label></td>
-                        <td><input type="text" name="curso" id="curso" value=""></td>
+                        <td><input type="text" name="curso" id="curso" value="<?= htmlspecialchars($instructor_data['curso']) ?>"></td>
                     </tr>
                 </table>
 
-                <button type="submit" name="guardar_Cambios">Guardar Cambios</button>
+                <button type="submit" name="guardar_cambios">Guardar Cambios</button>
             </form>
-    
+            <?php endif; ?>
         </div>
     </section>
 </body>
