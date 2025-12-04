@@ -58,7 +58,7 @@ if(isset($_GET['action']) && $_GET['action'] === 'eliminar' && isset($_GET['id']
     } else {
         $errors[] = "Error al eliminar el elemento " . $stmt->error;
     }
-    $stmt->clone();
+    $stmt->close();
 }
 ?>
 
@@ -68,7 +68,7 @@ if(isset($_GET['action']) && $_GET['action'] === 'eliminar' && isset($_GET['id']
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/estilos.css">
-    <title>Bajas</title>
+    <title>Elementos</title>
 </head>
 
 <body class="dashAdm">
@@ -136,8 +136,6 @@ if(isset($_GET['action']) && $_GET['action'] === 'eliminar' && isset($_GET['id']
         <button type="submit" class="export-btn">📦 Exportar a Excel</button>
     </form>
 </div>
-
-<script src="<?php echo BASE_URL; ?>/js/index.js"></script>
 
 </body>
 </html>

@@ -109,6 +109,7 @@ table tbody tr td {
     font-size: 0.95em;
     color: var(--Gray);
     text-align: center;
+    width: 40%;
 }
 
 /* Centrar la columna de acciones */
@@ -496,7 +497,7 @@ table button.eliminate:hover {
 
     div {
         background-color: var(--white);
-        width: 690px;    
+        width: auto;    
         flex-direction: column;
     }
 }

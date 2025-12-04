@@ -104,7 +104,5 @@ $conn->close();
         </form>
     </div>
 
-<script src="<?php echo BASE_URL; ?>/js/index.js"></script>
-
 </body>
 </html>
