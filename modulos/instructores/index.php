@@ -27,11 +27,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_instructor'])) {
     if(empty($nombre) || empty($curso)) {
         $errors[] = "Todos los campos son obligatorios";
     } else {
-        $sql_verify = "SELECT * FROM docentes WHERE nombre = '$nombre'";
+        $sql_verify = "SELECT * FROM instructores WHERE nombre = '$nombre'";
         $result_verify = mysqli_query($conn, $sql_verify);
         
         if(mysqli_num_rows($result_verify) == 0) {
-            $sql_insert = "INSERT INTO docentes (nombre , curso) VALUES ('$nombre' , '$curso')";
+            $sql_insert = "INSERT INTO instructores (nombre , curso) VALUES ('$nombre' , '$curso')";
             mysqli_query($conn, $sql_insert);
             header("Location: " . $_SERVER['PHP_SELF'] . "?success=created");
         } else {
@@ -42,7 +42,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_instructor'])) {
 
 //Consultar instructores
 $sql_docentes = "SELECT id, nombre, curso
-                FROM docentes
+                FROM instructores
                 ORDER BY nombre";
 $result_docentes = $conn->query($sql_docentes);
 
@@ -59,7 +59,7 @@ if($sql_docentes && $result_docentes->num_rows > 0) {
 if(isset($_GET['action']) && $_GET['action'] === 'eliminar' && isset($_GET['id'])) {
     $id = intval($_GET['id']);
 
-    $sql = "DELETE FROM docentes WHERE id = ?";
+    $sql = "DELETE FROM instructores WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $id);
 
@@ -170,6 +170,12 @@ if(isset($_GET['action']) && $_GET['action'] === 'eliminar' && isset($_GET['id']
 
         </div>
     </section>
+
+    <div class="export-container">
+        <form action="exportar_instructores.php" method="post">
+            <button type="submit" class="export-btn">📦 Exportar a Excel</button>
+        </form>
+    </div>
 
 </body>
 </html>

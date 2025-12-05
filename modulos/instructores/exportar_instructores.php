@@ -6,29 +6,22 @@ verificar_rol('Administrador');
 
 // Configurar cabeceras para exportar Excel
 header("Content-Type: application/vnd.ms-excel; charset=UTF-8");
-header("Content-Disposition: attachment; filename=Elementos_" . date('Y-m-d') . ".xls.html");
+header("Content-Disposition: attachment; filename=Instructores_" . date('Y-m-d') . ".xls.html");
 header("Pragma: no-cache");
 header("Expires: 0");
 
 // Consulta de los datos (solo con cantidad > 0)
-$sql = "SELECT 
-                e.id,
-                e.elementos,
-                t.nombre_tipo_elemento AS tipo_elemento,
-                e.clase
-        FROM elementos e
-        LEFT JOIN tipo_elemento t 
-        ON e.tipo_elemento = t.id
-        ORDER BY elementos";
+$sql = "SELECT id, nombre, curso
+        FROM instructores
+        ORDER BY nombre";
 $result = $conn->query($sql);
 
 // Encabezado de la tabla
 echo "<table border='1'>";
 echo "<thead>
         <tr style='background-color:#f0a500; color:#fff;'>
-            <th>Elemento</th>
-            <th>Tipo</th>
-            <th>Clase</th>
+            <th>Nombre</th>
+            <th>Curso</th>
         </tr>
       </thead>
       <tbody>";
@@ -37,9 +30,8 @@ echo "<thead>
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         echo "<tr>
-                <td>" . htmlspecialchars($row['elementos'])  . "</td>
-                <td>" . htmlspecialchars($row['tipo_elemento'])  . "</td>
-                <td>" . htmlspecialchars($row['clase'])  . "</td>
+                <td>" . htmlspecialchars($row['nombre']) . "</td>
+                <td>" . htmlspecialchars($row['curso']) . "</td>
               </tr>";
     }
 } else {

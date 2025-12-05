@@ -62,7 +62,7 @@ $sql_instructor = "SELECT * FROM funcionario";
 $result_instructor = $conn->query($sql_instructor);
 
 //Consultar docente
-$sql_docente = "SELECT * FROM docentes";
+$sql_docente = "SELECT * FROM instructores";
 $result_docente = $conn->query($sql_docente);
 
 //Consultar requisiciones
@@ -81,7 +81,7 @@ $sql_requisicion = " SELECT
                             r.observaciones,
                             r.anulada
                     FROM requisicion r
-                    LEFT JOIN docentes d ON r.id_docente = d.id
+                    LEFT JOIN instructores d ON r.id_docente = d.id
                     LEFT JOIN funcionario f ON r.id_funcionario = f.id
                     ORDER BY r.fecha_solicitud DESC";
 $result_requisicion = $conn->query($sql_requisicion);
@@ -148,9 +148,9 @@ if(isset($_GET['action']) && $_GET['action'] === 'eliminar' && isset($_GET['id']
                 <label>Número de requisición:</label>
                 <input type="text" name="requisicion" required>
 
-                <label>Docente:</label>
+                <label>Instructores:</label>
                 <select name="docente" required class="baja_item">
-                    <option value="">-- Seleccione un docente --</option>
+                    <option value="">-- Seleccione un instructores --</option>
                     <?php while($row = $result_docente->fetch_assoc()): ?>
                         <option value="<?= $row['id'] ?>"><?= htmlspecialchars($row['nombre']) ?></option>
                     <?php endwhile; ?>
@@ -249,6 +249,12 @@ if(isset($_GET['action']) && $_GET['action'] === 'eliminar' && isset($_GET['id']
             </div>
         </div>
     </section>
+
+    <div class="export-container">
+        <form action="exportar_requisicion.php" method="post">
+            <button type="submit" class="export-btn">📦 Exportar a Excel</button>
+        </form>
+    </div>
 
 </body>
 </html>

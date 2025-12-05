@@ -15,7 +15,7 @@ if (isset($_GET['id'])) {
                 d.nombre AS docente_nombre,
                 f.funcionario AS funcionario_nombre
             FROM requisicion r
-            LEFT JOIN docentes d ON r.id_docente = d.id
+            LEFT JOIN instructores d ON r.id_docente = d.id
             LEFT JOIN funcionario f ON r.id_funcionario = f.id
             WHERE r.id = ?";
     $stmt = $conn->prepare($sql);
@@ -39,7 +39,7 @@ $sql_instructor = "SELECT * FROM funcionario";
 $result_instructor = $conn->query($sql_instructor);
 
 //Consultar docente
-$sql_docente = "SELECT * FROM docentes";
+$sql_docente = "SELECT * FROM instructores";
 $result_docente = $conn->query($sql_docente);
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {

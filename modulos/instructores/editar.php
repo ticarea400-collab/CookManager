@@ -10,7 +10,7 @@ $instructor_data = [];
 
 if(isset($_GET['id'])) {
     $id = intval($_GET['id']);
-    $sql = "SELECT id, nombre, curso FROM docentes WHERE id = ?";
+    $sql = "SELECT id, nombre, curso FROM instructores WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $id);
     $stmt->execute();
@@ -33,7 +33,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $nombre = trim(($_POST['nombre']));
         $curso = trim($_POST['curso']);
 
-        $sql_update = "UPDATE docentes
+        $sql_update = "UPDATE instructores
                         SET nombre = ?, curso = ?
                         WHERE id = ?";
         
