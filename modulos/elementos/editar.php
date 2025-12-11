@@ -27,21 +27,30 @@ if(isset($_GET['id'])) {
     $errors[] = "No se proporcionó un ID válido.";
 }
 
+// Consultar tipo_elemento
+$sql_tipo = "SELECT * FROM tipo_elemento";
+$result_tipo = $conn->query($sql_tipo);
+
+// Consultar clase
+$sql_clase = "SELECT * FROM clase";
+$result_clase = $conn->query($sql_clase);
+
+
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if(isset($_POST['guardar_cambios'])) {
 
         $id = intval($_POST['id']);
         $elemento = trim($_POST['elemento']);
-        $tipo = trim($_POST['tipo']);
-        $clase = trim($_POST['clase']);
+        $tipo = intval($_POST['tipo']);
+        $clase = intval($_POST['clase']);
 
         $sql_update = "UPDATE elementos
                         SET elementos = ?, tipo_elemento = ?, clase = ?
                         WHERE id = ?";
 
         $stmt = $conn->prepare($sql_update);
-        $stmt->bind_param("sssi", $elemento, $tipo, $clase, $id);
+        $stmt->bind_param("siii", $elemento, $tipo, $clase, $id);
         $stmt->execute();
 
         $success = "✅ Cambios guardados correctamente.";
@@ -89,31 +98,31 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </tr>
                     <tr>
                         <td><label for="tipo">Tipo:</label></td>
-                        <td><select name="tipo" id="tipo">
-                            <option value="ASEO" <?= $elemento_data['tipo_elemento'] === 'ASEO' ? 'selected' : '' ?>> Aseo</option>
-                            <option value="BATERIA COCINA" <?= $elemento_data['tipo_elemento'] === 'BATERIA COCINA' ? 'selected' : '' ?>> Bateria Cocina </option>
-                            <option value="COCINA" <?= $elemento_data['tipo_elemento'] === 'COCINA' ? 'selected' : '' ?>> Cocina </option>
-                            <option value="CONSUMO" <?= $elemento_data['tipo_elemento'] === 'CONSUMO' ? 'selected' : '' ?>> Consumo </option>
-                            <option value="CRISTALERIA" <?= $elemento_data['tipo_elemento'] === 'CRISTALERIA' ? 'selected' : '' ?>> Cristaleria </option>
-                            <option value="CUBIERTERA" <?= $elemento_data['tipo_elemento'] === 'CUBIERTERA' ? 'selected' : '' ?>> Cubiertera </option>
-                            <option value="CUBIERTERIA" <?= $elemento_data['tipo_elemento'] === 'CUBIERTERIA' ? 'selected' : '' ?>> Cubierteria </option>
-                            <option value="CUBIERTOS" <?= $elemento_data['tipo_elemento'] === 'CUBIERTOS' ? 'selected' : '' ?>> Cubiertos </option>
-                            <option value="DEVOLUTIVO " <?= $elemento_data['tipo_elemento'] === 'DEVOLUTIVO' ? 'selected' : '' ?>> Devolutivo </option>
-                            <option value="ELECTO PLATA" <?= $elemento_data['tipo_elemento'] === 'ELECTO PLATA' ? 'selected' : '' ?>> Electo plata</option>
-                            <option value="EQUIPOS" <?= $elemento_data['tipo_elemento'] === 'EQUIPOS' ? 'selected' : '' ?>> Equipos </option>
-                            <option value="PORCELANA" <?= $elemento_data['tipo_elemento'] === 'PORCELANA' ? 'selected' : '' ?>> Porcelana </option>
-                            <option value="UTENSILIOS DE COCINA" <?= $elemento_data['tipo_elemento'] === 'UTENSILIOS DE COCINA' ? 'selected' : '' ?>> Utensilios de cocina </option>
-                            <option value="UTENSILIOS DE MESA" <?= $elemento_data['tipo_elemento'] === 'UTENSILIOS DE MESA' ? 'selected' : '' ?>> Utensilios de mesa</option>
-                            <option value="VAJILLA" <?= $elemento_data['tipo_elemento'] === 'VAJILLA' ? 'selected' : '' ?>> Vajilla </option>
-                        </select></td>
+                        <td>
+                            <select name="tipo" id="tipo">
+                            <?php while($row = $result_tipo->fetch_assoc()): ?>
+                                <option 
+                                    value="<?= $row['id'] ?>"
+                                    <?= $row['id'] == $elemento_data['tipo_elemento'] ? 'selected' : '' ?>
+                                >
+                                    <?= htmlspecialchars($row['nombre_tipo_elemento']) ?>
+                                </option>
+                            <?php endwhile; ?>
+                            </select>
+                        </td>
                     </tr>
                     <tr>
                         <td><label for="clase">Clase:</label></td>
                         <td>
                             <select name="clase" id="clase">
-                                <option value="ASEO" <?= $elemento_data['clase'] === 'ASEO' ? 'selected' : '' ?>> Aseo</option>
-                                <option value="CONSUMO" <?= $elemento_data['clase'] === 'CONSUMO' ? 'selected' : '' ?>> Consumo</option>
-                                <option value="DEVOLUTIVO" <?= $elemento_data['clase'] === 'DEVOLUTIVO' ? 'selected' : '' ?>> Devolutivo</option>
+                                <?php while($row = $result_clase->fetch_assoc()): ?>
+                                    <option 
+                                        value="<?= $row['id'] ?>"
+                                        <?= $row['id'] == $elemento_data['clase'] ? 'selected' : '' ?>
+                                    >
+                                        <?= htmlspecialchars($row['clase_elemento']) ?>
+                                    </option>
+                                <?php endwhile; ?>
                             </select>
                         </td>
                     </tr>

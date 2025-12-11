@@ -2,16 +2,21 @@
 include_once('../../config/conection.php');
 include_once('../../config/verificar_acceso.php');
 
-verificar_rol('SuperAdmin', 'Administrador');
+verificar_rol(['SuperAdmin', 'Administrador']);
 
 $errors = [];
 $success = '';
 
 //Mostrar Datos
 $elementos = [];
-$sql_select = "SELECT elementos, cantidad, fecha_de_ingreso
-                FROM inventario
-                ORDER BY elementos";
+$sql_select = "SELECT 
+                    i.elemento_id,
+                    e.elementos AS elemento,
+                    i.cantidad, 
+                    i.fecha_ingreso
+                FROM inventario i
+                LEFT JOIN elementos e  ON e.id = i.elemento_id
+                ORDER BY elemento_id ASC";
 $result = $conn->query($sql_select);
 
 if ($result && $result->num_rows > 0) {
@@ -83,9 +88,9 @@ $conn->close();
                             <tbody>
                                 <?php foreach($elementos as $elemento): ?>
                                     <tr>
-                                        <td><?= htmlspecialchars($elemento['elementos']) ?></td>
+                                        <td><?= htmlspecialchars($elemento['elemento']) ?></td>
                                         <td><?= htmlspecialchars($elemento['cantidad']) ?></td>
-                                        <td><?= htmlspecialchars($elemento['fecha_de_ingreso']) ?></td>
+                                        <td><?= htmlspecialchars($elemento['fecha_ingreso']) ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>

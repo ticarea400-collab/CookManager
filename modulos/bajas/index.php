@@ -9,58 +9,99 @@ $success = '';
 
 // Registrar baja
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $elemento = trim($_POST['elemento']);
-    $baja = (int) $_POST['baja'];
+    // 1) Validaciones básicas y lectura segura del POST
+    $elemento = isset($_POST['elemento']) ? intval($_POST['elemento']) : 0;
+    $baja = isset($_POST['baja']) ? intval($_POST['baja']) : 0;
 
-    // Obtener cantidad actual del elemento
-    $sql_check = "SELECT cantidad FROM inventario WHERE id = ?";
-    $stmt = $conn->prepare($sql_check);
-    $stmt->bind_param("i", $elemento);
-    $stmt->execute();
-    $stmt->bind_result($cantidad_actual);
-    $stmt->fetch();
-    $stmt->close();
-
-    if (!isset($cantidad_actual)) {
-        $errors[] = "El elemento seleccionado no existe en inventario.";
+    if ($elemento <= 0) {
+        $errors[] = "No se recibió un elemento válido. Valor recibido: " . htmlspecialchars($_POST['elemento'] ?? 'NULL');
     } elseif ($baja <= 0) {
         $errors[] = "La cantidad a dar de baja debe ser mayor a 0.";
-    } elseif ($baja > $cantidad_actual) {
-        $errors[] = "No puedes dar de baja más de lo que hay en inventario.";
     } else {
-        // Actualizar inventario
-        $sql_update = "UPDATE inventario SET cantidad = cantidad - ? WHERE id = ?";
-        $stmt = $conn->prepare($sql_update);
-        $stmt->bind_param("ii", $baja, $elemento);
-        $stmt->execute();
-        $stmt->close();
+        // 2) Preparar consulta para comprobar existencia en inventario
+        $sql_check = "SELECT cantidad FROM inventario WHERE elemento_id = ?";
+        $stmt = $conn->prepare($sql_check);
+        if (!$stmt) {
+            $errors[] = "Error al preparar consulta: " . $conn->error;
+        } else {
+            $stmt->bind_param("i", $elemento);
+            if (!$stmt->execute()) {
+                $errors[] = "Error al ejecutar consulta: " . $stmt->error;
+            } else {
+                $res = $stmt->get_result();
+                if (!$res || $res->num_rows === 0) {
+                    // Aquí vemos exactamente qué id no encontró
+                    $errors[] = "El elemento seleccionado (id = {$elemento}) no existe en inventario.";
+                } else {
+                    $row = $res->fetch_assoc();
+                    $cantidad_actual = (int)$row['cantidad'];
 
-        // Registrar baja en tabla "bajas"
-        $fecha = date('Y-m-d');
-        $sql_insert = "INSERT INTO bajas (elemento, baja, fecha)
-               VALUES (?, ?, ?)";
-        $stmt = $conn->prepare($sql_insert);
-        $stmt->bind_param("iis", $elemento, $baja, $fecha);
-        $stmt->execute();
-
-        $success = "✅ Baja registrada correctamente.";
+                    if ($baja > $cantidad_actual) {
+                        $errors[] = "No puedes dar de baja más de lo que hay en inventario (disponible: {$cantidad_actual}).";
+                    } else {
+                        // 3) Update inventario
+                        $sql_update = "UPDATE inventario SET cantidad = cantidad - ? WHERE elemento_id = ?";
+                        $stmt_up = $conn->prepare($sql_update);
+                        if (!$stmt_up) {
+                            $errors[] = "Error al actualizar: " . $conn->error;
+                        } else {
+                            $stmt_up->bind_param("ii", $baja, $elemento);
+                            if (!$stmt_up->execute()) {
+                                $errors[] = "Error al actualizar inventario: " . $stmt_up->error;
+                            } else {
+                                // 4) Insertar baja (asegúrate que la FK de 'bajas.elemento' corresponda al id que insertas)
+                                $fecha = date('Y-m-d');
+                                $sql_insert = "INSERT INTO bajas (elemento, baja, fecha) VALUES (?, ?, ?)";
+                                $stmt_ins = $conn->prepare($sql_insert);
+                                if (!$stmt_ins) {
+                                    $errors[] = "Error al preparar INSERT: " . $conn->error;
+                                } else {
+                                    $stmt_ins->bind_param("iis", $elemento, $baja, $fecha);
+                                    if (!$stmt_ins->execute()) {
+                                        $errors[] = "Error al insertar baja: " . $stmt_ins->error;
+                                    } else {
+                                        $success = "✅ Baja registrada correctamente.";
+                                    }
+                                    $stmt_ins->close();
+                                }
+                            }
+                            $stmt_up->close();
+                        }
+                    }
+                }
+                $res->free();
+            }
+            $stmt->close();
+        }
     }
 }
 
+
+//Consultar elementos
+$sql_elementos = "SELECT * FROM elementos";
+$result_elementos = $conn->query($sql_elementos);
+
 // Consultar inventario
-$sql_inventario = "SELECT id, elementos, cantidad 
-                    FROM inventario 
+$sql_inventario = "SELECT 
+                        i.id, 
+                        i.elemento_id, 
+                        e.elementos,
+                        i.cantidad 
+                    FROM inventario i
+                    LEFT JOIN elementos e ON i.elemento_id = e.id
                     WHERE cantidad > 0 
                     ORDER BY elementos";
 $result_inventario = $conn->query($sql_inventario);
 
 // Consultar historial de bajas
-$sql_bajas = "
-    SELECT b.id, i.elementos, b.baja, b.fecha
-    FROM bajas b
-    JOIN inventario i ON b.elemento = i.id
-    ORDER BY b.fecha DESC
-";
+$sql_bajas = "SELECT 
+                    b.id,
+                    e.elementos AS nombre_elemento,
+                    b.baja,
+                    b.fecha
+                FROM bajas b
+                LEFT JOIN elementos e ON b.elemento = e.id
+                ORDER BY b.fecha DESC";
 $result_bajas = $conn->query($sql_bajas);
 
 $bajas = [];
@@ -111,7 +152,7 @@ $conn->close();
             <select name="elemento" required class="baja_item">
                 <option value="">-- Seleccione un elemento --</option>
                 <?php while($row = $result_inventario->fetch_assoc()): ?>
-                    <option value="<?= $row['id'] ?>">
+                    <option value="<?= $row['elemento_id'] ?>">
                         <?= htmlspecialchars($row['elementos']) ?> (Disponible: <?= $row['cantidad'] ?>)
                     </option>
                 <?php endwhile; ?>
@@ -142,7 +183,7 @@ $conn->close();
                         <tbody>
                             <?php foreach($bajas as $inv): ?>
                             <tr>
-                                <td><?= htmlspecialchars($inv['elementos']) ?></td>
+                                <td><?= htmlspecialchars($inv['nombre_elemento']) ?></td>
                                 <td><?= htmlspecialchars($inv['baja']) ?></td>
                                 <td><?= htmlspecialchars($inv['fecha']) ?></td>
                             </tr>

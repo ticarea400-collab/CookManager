@@ -2,7 +2,8 @@
 include_once('../../config/conection.php');
 include_once('../../config/verificar_acceso.php');
 
-verificar_rol('Administrador');
+verificar_rol(['Contratista', 'Administrador']);
+
 
 $errors = [];
 $success = '';
@@ -69,7 +70,7 @@ $result_docente = $conn->query($sql_docente);
 $sql_requisicion = " SELECT 
                             r.id,
                             r.num_requisicion,
-                            r.id_docente,
+                            r.id_instructor,
                             d.nombre AS docente_nombre,
                             r.fecha_solicitud,
                             r.fecha_de_entrega,
@@ -81,7 +82,7 @@ $sql_requisicion = " SELECT
                             r.observaciones,
                             r.anulada
                     FROM requisicion r
-                    LEFT JOIN instructores d ON r.id_docente = d.id
+                    LEFT JOIN instructores d ON r.id_instructor = d.id
                     LEFT JOIN funcionario f ON r.id_funcionario = f.id
                     ORDER BY r.fecha_solicitud DESC";
 $result_requisicion = $conn->query($sql_requisicion);
@@ -232,10 +233,10 @@ if(isset($_GET['action']) && $_GET['action'] === 'eliminar' && isset($_GET['id']
 
                                     <td>
                                         <a href="editar.php?id=<?= $req['id'] ?>">
-                                            <button type="button" class="edit">Editar</button>
+                                             <button type="button" class="edit">Editar</button>
                                         </a>
                                         <a href="?action=eliminar&id=<?= $req['id'] ?>" 
-                                           onclick="return confirm('¿Seguro que deseas eliminar este elemento?');">
+                                           onclick="return confirm('¿Seguro que deseas eliminar esta requisición?');">
                                             <button type="button" class="eliminate">Eliminar</button>
                                         </a>
                                     </td>
