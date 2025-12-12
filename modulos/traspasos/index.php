@@ -25,14 +25,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_traspaso'])) {
     $baja = intval($_POST['baja']);
     $fecha = trim($_POST['fecha']);
     $funcionario = intval($_POST['funcionario']);
-    $id_docente = intval($_POST['id_docente']);
+    $id_instructor = intval($_POST['id_instructor']);
 
-    if(empty($elemento) || empty($baja) || empty($fecha) || empty($funcionario) || empty($id_docente)) {
+    if(empty($elemento) || empty($baja) || empty($fecha) || empty($funcionario) || empty($id_instructor)) {
         $errors[] = "Todos los campos son obligatorios";
     } else {
 
         // 1. Obtener cantidad actual del inventario
-        $sql_check = "SELECT cantidad FROM inventario WHERE id = $elemento";
+        $sql_check = "SELECT cantidad FROM inventario WHERE elemento_id = $elemento";
         $result_check = $conn->query($sql_check);
         $data = $result_check->fetch_assoc();
 
@@ -46,12 +46,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_traspaso'])) {
             // 3. Restar inventario
             $nueva_cantidad = $cantidad_actual - $baja;
 
-            $sql_update = "UPDATE inventario SET cantidad = $nueva_cantidad WHERE elementos = $elemento";
+            $sql_update = "UPDATE inventario SET cantidad = $nueva_cantidad WHERE elemento_id = $elemento";
             $conn->query($sql_update);
 
             // 4. Insertar traspaso
-            $sql_insert = "INSERT INTO traspaso (elemento, baja, fecha, funcionario, id_docente)
-                           VALUES ('$elemento', '$baja', '$fecha', '$funcionario', '$id_docente')";
+            $sql_insert = "INSERT INTO traspaso (elemento, baja, fecha, funcionario, id_instructor)
+                           VALUES ('$elemento', '$baja', '$fecha', '$funcionario', '$id_instructor')";
             
             mysqli_query($conn, $sql_insert);
 
@@ -70,9 +70,9 @@ $result_elementos = $conn->query($sql_elementos);
 $sql_funcionario = "SELECT * FROM funcionario";
 $result_funcionario = $conn->query($sql_funcionario);
 
-//Consultar docente
-$sql_docente = "SELECT * FROM instructores";
-$result_docente = $conn->query($sql_docente);
+//Consultar instructor
+$sql_instructor = "SELECT * FROM instructores";
+$result_instructor = $conn->query($sql_instructor);
 
 //Consultar traspasos
 $sql_traspasos = "SELECT
@@ -173,9 +173,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'eliminar' && isset($_GET['id'
                 </select>
 
                 <label>Instructor:</label>
-                <select name="id_docente" id="id_docente">
+                <select name="id_instructor" id="id_instructor">
                     <option value="">-- Seleccione un instructor --</option>
-                    <?php while ($row = $result_docente->fetch_assoc()): ?>
+                    <?php while ($row = $result_instructor->fetch_assoc()): ?>
                         <option value="<?= $row['id'] ?>"><?= htmlspecialchars($row['nombre']) ?></option>
                     <?php endwhile; ?>
                 </select>
