@@ -14,8 +14,8 @@ header("Expires: 0");
 $sql = " SELECT 
                 r.id,
                 r.num_requisicion,
-                r.id_docente,
-                d.nombre AS docente_nombre,
+                r.id_instructor,
+                d.nombre AS instructor_nombre,
                 r.fecha_solicitud,
                 r.fecha_de_entrega,
                 r.grupo_encargado,
@@ -26,7 +26,7 @@ $sql = " SELECT
                 r.observaciones,
                 r.anulada
         FROM requisicion r
-        LEFT JOIN instructores d ON r.id_docente = d.id
+        LEFT JOIN instructores d ON r.id_instructor = d.id
         LEFT JOIN funcionario f ON r.id_funcionario = f.id
         ORDER BY r.fecha_solicitud DESC";
 $result = $conn->query($sql);
@@ -36,7 +36,7 @@ echo "<table border='1'>";
 echo "<thead>
         <tr style='background-color:#f0a500; color:#fff;'>
             <th>N° requisición</th>
-            <th>Docente</th>
+            <th>Instructor</th>
             <th>Fecha Solicitud</th>
             <th>Fecha Entrega</th>
             <th>Grupo Encargado</th>
@@ -54,7 +54,7 @@ if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         echo "<tr>
                 <td>" . $row['num_requisicion'] . "</td>
-                <td>" . htmlspecialchars($row['docente_nombre']) . "</td>
+                <td>" . htmlspecialchars($row['instructor_nombre']) . "</td>
                 <td>" . $row['fecha_solicitud'] . "</td>
                 <td>" . $row['fecha_de_entrega'] . "</td>
                 <td>" . $row['grupo_encargado'] . "</td>

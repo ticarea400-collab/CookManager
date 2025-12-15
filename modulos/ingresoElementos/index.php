@@ -27,7 +27,7 @@ $sql_inventario = "SELECT
                         i.cantidad 
                     FROM inventario i
                     LEFT JOIN elementos e ON i.elemento_id = e.id
-                    WHERE cantidad > 0 
+                    WHERE cantidad >= 0 
                     ORDER BY elementos";
 $result_inventario = $conn->query($sql_inventario);
 

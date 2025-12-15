@@ -93,6 +93,9 @@ if ($result && $result->num_rows > 0) {
 </head>
 
 <body class="dashAdm">
+<section class="menu" id="mainMenu">
+    <?php include(ROOT_PATH . '/includes/menuHamb.php') ?>
+</section>
 
 <section class="module">
     <div>

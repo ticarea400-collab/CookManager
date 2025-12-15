@@ -1,6 +1,7 @@
 <?php
 include_once('../../config/conection.php');
 include_once('../../config/verificar_acceso.php');
+include_once('../../includes/return_back.php');
 
 verificar_rol('Administrador');
 
@@ -91,6 +92,11 @@ $instructores = $conn->query("SELECT id, nombre FROM instructores");
 </head>
 
 <body class="dashAdm">
+<button type="button" class="btn-back"
+    onclick="window.location.href='<?= $_SESSION['return_to'] ?? 'index.php' ?>'">
+    ⬅ Volver
+</button>
+
 <section class="module">
     <div>
         <h2>Editar Traspaso</h2>

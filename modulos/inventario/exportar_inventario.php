@@ -2,7 +2,7 @@
 include_once('../../config/conection.php');
 include_once('../../config/verificar_acceso.php');
 
-verificar_rol('SuperAdmin', 'Administrador');
+verificar_rol(['SuperAdmin', 'Administrador']);
 
 // Configurar cabeceras para exportar Excel
 header("Content-Type: application/vnd.ms-excel; charset=UTF-8");
@@ -11,9 +11,14 @@ header("Pragma: no-cache");
 header("Expires: 0");
 
 // Consulta de los datos (solo con cantidad > 0)
-$sql = "SELECT elementos, cantidad, fecha_de_ingreso
-        FROM inventario
-        ORDER BY elementos";
+$sql = "SELECT 
+            i.elemento_id,
+            e.elementos AS elemento,
+            i.cantidad, 
+            i.fecha_ingreso
+        FROM inventario i
+        LEFT JOIN elementos e  ON e.id = i.elemento_id
+        ORDER BY elemento_id ASC";
 $result = $conn->query($sql);
 
 // Encabezado de la tabla
@@ -31,9 +36,9 @@ echo "<thead>
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         echo "<tr>
-                <td>" . htmlspecialchars($row['elementos']) . "</td>
+                <td>" . htmlspecialchars($row['elemento']) . "</td>
                 <td>" . htmlspecialchars($row['cantidad']) . "</td>
-                <td>" . htmlspecialchars($row['fecha_de_ingreso']) . "</td>
+                <td>" . htmlspecialchars($row['fecha_ingreso']) . "</td>
               </tr>";
     }
 } else {

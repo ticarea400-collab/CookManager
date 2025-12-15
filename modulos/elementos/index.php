@@ -26,30 +26,52 @@ $result_tipo = $conn->query($sql_tipo);
 $sql_clase = "SELECT * FROM clase";
 $result_clase = $conn->query($sql_clase);
 
-//Registrar elemento
-if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_elementos'])) {
+// Registrar elemento
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_elementos'])) {
+
     $elementos = trim($_POST['elementos']);
     $tipo_elemento = intval($_POST['tipo_elemento']);
     $clase = intval($_POST['clase']);
 
-    if(empty($elementos) || empty($tipo_elemento) || empty($clase)) {
+    if (empty($elementos) || empty($tipo_elemento) || empty($clase)) {
         $errors[] = "Todos los campos son obligatorios";
     } else {
-        //Verificar si existe
-        $sql_verify = "SELECT * FROM elementos WHERE elementos = '$elementos'";
-        $result_verify = mysqli_query($conn, $sql_verify);
 
-        if(mysqli_num_rows($result_verify) == 0) {
-            $sql_insert = "INSERT INTO elementos (elementos, tipo_elemento, clase) VALUES ('$elementos' , '$tipo_elemento' , '$clase')";
+        // Verificar si ya existe
+        $sql_verify = "SELECT id FROM elementos WHERE elementos = ?";
+        $stmt_verify = $conn->prepare($sql_verify);
+        $stmt_verify->bind_param("s", $elementos);
+        $stmt_verify->execute();
+        $result_verify = $stmt_verify->get_result();
 
-            mysqli_query($conn, $sql_insert);
+        if ($result_verify->num_rows === 0) {
+
+            //Insertar elemento
+            $sql_insert = "INSERT INTO elementos (elementos, tipo_elemento, clase) 
+                           VALUES (?, ?, ?)";
+            $stmt_insert = $conn->prepare($sql_insert);
+            $stmt_insert->bind_param("sii", $elementos, $tipo_elemento, $clase);
+            $stmt_insert->execute();
+
+            // Obtener ID del elemento recién creado
+            $elemento_id = $conn->insert_id;
+
+            //Insertar en inventario con cantidad 0
+            $sql_inventario = "INSERT INTO inventario (elemento_id, cantidad) 
+                               VALUES (?, 0)";
+            $stmt_inv = $conn->prepare($sql_inventario);
+            $stmt_inv->bind_param("i", $elemento_id);
+            $stmt_inv->execute();
+
             header("Location: " . $_SERVER['PHP_SELF'] . "?success=created");
             exit;
+
         } else {
-            $errors[] = "El elemento ya esta registrado";
+            $errors[] = "El elemento ya está registrado";
         }
     }
 }
+
 
 //Consultar elementos
 $sql_elementos = "SELECT 

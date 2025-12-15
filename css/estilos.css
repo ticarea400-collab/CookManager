@@ -300,6 +300,28 @@ table button.eliminate:hover {
     background-color: var(--Gray-light);
 }
 
+.btn-back {
+    background-color: var(--Orange-dark);
+    color: var(--Black);
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 15px;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-back:hover {
+    background-color: #ddd;
+    transform: translateX(-2px);
+}
+
+.btn-back:active {
+    transform: scale(0.97);
+}
+
+
 .menu-link {
     position: absolute;
     top: 0;
@@ -338,6 +360,7 @@ table button.eliminate:hover {
 /*INICIOS*/
 .start,
 .dashAdm {
+    display: block;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

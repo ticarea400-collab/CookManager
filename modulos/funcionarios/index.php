@@ -151,5 +151,11 @@ $conn->close();
             </div>
         </div>
     </section>
+
+    <div class="export-container">
+        <form action="exportar_funcionarios.php" method="post">
+            <button type="submit" class="export-btn">📦 Exportar a Excel</button>
+        </form>
+    </div>
 </body>
 </html>
