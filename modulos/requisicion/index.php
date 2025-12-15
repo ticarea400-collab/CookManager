@@ -209,57 +209,11 @@ if(isset($_GET['action']) && $_GET['action'] === 'eliminar' && isset($_GET['id']
                 <div class="search-bar">
                     <input type="text" id="searchInput" placeholder="🔍 Buscar número requisición." title="Escribe para filtrar los resultados">
                 </div>
-                
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>N° requisición</th>
-                                <th>Docente</th>
-                                <th>Fecha Solicitud</th>
-                                <th>Fecha Entrega</th>
-                                <th>Grupo Encargado</th>
-                                <th>Practicantes</th>
-                                <th>Funcionarios</th>
-                                <th>Evento</th>
-                                <th>Observaciones</th>
-                                <th>Anulada</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                    </table>
-
-                    <div class="table-scroll">
-                        <table class="table-body" id="inventoryTable">
-                            <tbody>
-                                <?php foreach($requisicion as $req): ?>
-                                <tr>
-                                    <td><?= $req['num_requisicion'] ?></td>
-                                    <td><?= htmlspecialchars($req['instructor_nombre']) ?></td>
-                                    <td><?= $req['fecha_solicitud'] ?></td>
-                                    <td><?= $req['fecha_de_entrega'] ?></td>
-                                    <td><?= $req['grupo_encargado'] ?></td>
-                                    <td><?= $req['practicantes'] ?></td>
-                                    <td><?= htmlspecialchars($req['funcionario_nombre']) ?></td>
-                                    <td><?= $req['evento'] ?></td>
-                                    <td><?= $req['observaciones'] ?></td>
-                                    <td><?= $req['anulada'] ?></td>
-
-                                    <td>
-                                        <a href="editar.php?id=<?= $req['id'] ?>">
-                                             <button type="button" class="edit">Editar</button>
-                                        </a>
-                                        <a href="?action=eliminar&id=<?= $req['id'] ?>" 
-                                           onclick="return confirm('¿Seguro que deseas eliminar esta requisición?');">
-                                            <button type="button" class="eliminate">Eliminar</button>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                          
+                    <?php 
+                        $modo = 'requisicion';
+                        include(ROOT_PATH . '/includes/requisiciones_table.php');
+                    ?>    
 
             </div>
         </div>

@@ -603,3 +603,15 @@ table button.eliminate:hover {
 .baja_item {
     margin-bottom: 10px;
 }
+
+.return {
+    width: auto; 
+    margin: 35px 3px 10px auto; 
+    padding: 14px 3px;
+}
+
+.pending {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+}

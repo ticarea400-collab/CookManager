@@ -41,7 +41,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                             break;
                         
                         default:
-                            header("Location: ./contratistas/dashboard.php");
+                            header("Location: ./contratista/dashboard.php");
                             break;
                     }
                     exit;
