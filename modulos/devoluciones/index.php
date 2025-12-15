@@ -8,7 +8,7 @@ include_once('../../config/conection.php');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/estilos.css">
-    <title>Bajas</title>
+    <title>Devoluciones</title>
 </head>
 
 <body class="dashAdm">
@@ -16,6 +16,6 @@ include_once('../../config/conection.php');
         <?php include(ROOT_PATH . '/includes/menuHamb.php') ?>
     </section>
 
-    <h1>Desde Devoluciones</h1>
+    <h2>Devoluciones</h2>
 </body>
 </html>
