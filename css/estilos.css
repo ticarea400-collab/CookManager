@@ -109,7 +109,7 @@ table tbody tr td {
     font-size: 0.95em;
     color: var(--Gray);
     text-align: center;
-    width: 40%;
+    width: 10%;
 }
 
 /* Centrar la columna de acciones */
@@ -160,7 +160,7 @@ table button.eliminate:hover {
     background-color: var(--Orange-dark);
     color: var(--white);
     padding: 12px 15px;
-    text-align: left;
+    text-align: center;
     font-weight: bold;
 }
 
@@ -173,17 +173,17 @@ table button.eliminate:hover {
 
 .table-head th:nth-child(1),
 .table-body td:nth-child(1) {
-    width: 40%; /* Elemento */
+    width: 10%; /* Elemento */
 }
 
 .table-head th:nth-child(2),
 .table-body td:nth-child(2) {
-    width: 30%; /* Cantidad */
+    width: 10%; /* Cantidad */
 }
 
 .table-head th:nth-child(3),
 .table-body td:nth-child(3) {
-    width: 30%; /* Fecha de entrada */
+    width: 10%; /* Fecha de entrada */
 }
 
 .table-head {
@@ -496,8 +496,7 @@ table button.eliminate:hover {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Sombra suave para efecto flotante */
 
     div {
-        background-color: var(--white);
-        width: auto;    
+        background-color: var(--white); 
         flex-direction: column;
     }
 }
@@ -520,7 +519,7 @@ table button.eliminate:hover {
 }
 
 .module form table tr td {
-    padding: 12px 0; 
+    padding: 12px 10px; 
     border-bottom: 1px dotted #dddddd;
 }
 
@@ -531,9 +530,9 @@ table button.eliminate:hover {
 .module form table tr td:first-child {
     font-weight: 600;
     color: var(--Dark-text);
-    width: 35%; 
-    text-align: right;
-    padding-right: 25px;
+    width: 13%; 
+    text-align: center;
+    padding-right: 10px;
     vertical-align: top; 
 }
 

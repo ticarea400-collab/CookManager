@@ -15,7 +15,7 @@ if (isset($_GET['id'])) {
                 d.nombre AS docente_nombre,
                 f.funcionario AS funcionario_nombre
             FROM requisicion r
-            LEFT JOIN instructores d ON r.id_docente = d.id
+            LEFT JOIN instructores d ON r.id_instructor = d.id
             LEFT JOIN funcionario f ON r.id_funcionario = f.id
             WHERE r.id = ?";
     $stmt = $conn->prepare($sql);
@@ -65,7 +65,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                         evento = ?, 
                         observaciones = ?, 
                         anulada = ?, 
-                        id_docente = ?, 
+                        id_instructor = ?, 
                         practicantes = ?
                     WHERE id = ?";
     $stmt = $conn->prepare($sql_update);
@@ -120,7 +120,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <td><label for="docente">Docente</label></td>
                         <td>
                             <select name="docente" id="docente">
-                                <option value="<?= $requisicion_data['id_docente'] ?>" selected>
+                                <option value="<?= $requisicion_data['id_instructor'] ?>" selected>
                                     <?= htmlspecialchars($requisicion_data['docente_nombre']) ?>
                                 </option>
 

@@ -23,7 +23,7 @@ if (isset($_GET['success'])) {
 if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_requisicion'])) {
 
     $requisicion = intval($_POST['requisicion']);
-    $docente = intval($_POST['docente']);
+    $instructor = intval($_POST['instructor']);
     $fecha_solicitud = trim($_POST['fecha_solicitud']);
     $fecha_devolucion = trim($_POST['fecha_devolucion']);
     $grupo_encargado = trim($_POST['grupo_encargado']);
@@ -33,8 +33,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_requisicion'])) 
     $observaciones = trim($_POST['observaciones']);
     $anulada = trim($_POST['anulada']);
 
-    if(empty($requisicion) || empty($docente) || empty($fecha_solicitud) || empty($fecha_devolucion) || empty($funcionarios) || empty($evento)) {
-        $errors[] = "El campo de requisición, docente, fechas, funcionarios y evento son obligatorios.";
+    if(empty($requisicion) || empty($instructor) || empty($fecha_solicitud) || empty($fecha_devolucion) || empty($funcionarios) || empty($evento)) {
+        $errors[] = "El campo de requisición, instructor, fechas, funcionarios y evento son obligatorios.";
     } else {
 
         // Verificar si existe
@@ -43,12 +43,26 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_requisicion'])) 
 
         if(mysqli_num_rows($result_verify) == 0 ) {
 
-            $sql_insert = "INSERT INTO requisicion 
-                (num_requisicion, id_docente, fecha_solicitud, fecha_de_entrega, grupo_encargado, practicantes, id_funcionario, evento, observaciones, anulada) 
-                VALUES 
-                ('$requisicion' , '$docente' , '$fecha_solicitud' , '$fecha_devolucion' , '$grupo_encargado' , '$practicantes' , '$funcionarios' , '$evento' , '$observaciones', $anulada)";
-            
-            mysqli_query($conn, $sql_insert);
+            $sql_insert = "
+            INSERT INTO requisicion 
+            (num_requisicion, id_instructor, fecha_solicitud, fecha_de_entrega, grupo_encargado, practicantes, id_funcionario, evento, observaciones, anulada)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            $stmt = $conn->prepare($sql_insert);
+            $stmt->bind_param(
+                "iisssiisss",
+                $requisicion,
+                $instructor,
+                $fecha_solicitud,
+                $fecha_devolucion,
+                $grupo_encargado,
+                $practicantes,
+                $funcionarios,
+                $evento,
+                $observaciones,
+                $anulada
+            );
+            $stmt->execute();
             header("Location: " . $_SERVER['PHP_SELF'] . "?success=created");
             exit;
 
@@ -59,19 +73,19 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_requisicion'])) 
 }
 
 //Consultar instructor
-$sql_instructor = "SELECT * FROM funcionario";
-$result_instructor = $conn->query($sql_instructor);
+$sql_funcionario = "SELECT * FROM funcionario";
+$result_funcionario = $conn->query($sql_funcionario);
 
 //Consultar docente
-$sql_docente = "SELECT * FROM instructores";
-$result_docente = $conn->query($sql_docente);
+$sql_instructor = "SELECT * FROM instructores";
+$result_instructor = $conn->query($sql_instructor);
 
 //Consultar requisiciones
 $sql_requisicion = " SELECT 
                             r.id,
                             r.num_requisicion,
                             r.id_instructor,
-                            d.nombre AS docente_nombre,
+                            d.nombre AS instructor_nombre,
                             r.fecha_solicitud,
                             r.fecha_de_entrega,
                             r.grupo_encargado,
@@ -150,9 +164,9 @@ if(isset($_GET['action']) && $_GET['action'] === 'eliminar' && isset($_GET['id']
                 <input type="text" name="requisicion" required>
 
                 <label>Instructores:</label>
-                <select name="docente" required class="baja_item">
+                <select name="instructor" required class="baja_item">
                     <option value="">-- Seleccione un instructores --</option>
-                    <?php while($row = $result_docente->fetch_assoc()): ?>
+                    <?php while($row = $result_instructor->fetch_assoc()): ?>
                         <option value="<?= $row['id'] ?>"><?= htmlspecialchars($row['nombre']) ?></option>
                     <?php endwhile; ?>
                 </select>
@@ -172,7 +186,7 @@ if(isset($_GET['action']) && $_GET['action'] === 'eliminar' && isset($_GET['id']
                 <label>Funcionarios:</label>
                 <select name="funcionarios" required class="baja_item">
                     <option value="">-- Seleccione un funcionario --</option>
-                    <?php while($row = $result_instructor->fetch_assoc()): ?>
+                    <?php while($row = $result_funcionario->fetch_assoc()): ?>
                         <option value="<?= $row['id'] ?>"><?= htmlspecialchars($row['funcionario']) ?></option>
                     <?php endwhile; ?>
                 </select>
@@ -221,7 +235,7 @@ if(isset($_GET['action']) && $_GET['action'] === 'eliminar' && isset($_GET['id']
                                 <?php foreach($requisicion as $req): ?>
                                 <tr>
                                     <td><?= $req['num_requisicion'] ?></td>
-                                    <td><?= htmlspecialchars($req['docente_nombre']) ?></td>
+                                    <td><?= htmlspecialchars($req['instructor_nombre']) ?></td>
                                     <td><?= $req['fecha_solicitud'] ?></td>
                                     <td><?= $req['fecha_de_entrega'] ?></td>
                                     <td><?= $req['grupo_encargado'] ?></td>

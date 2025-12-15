@@ -63,15 +63,18 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crear_traspaso'])) {
 
 
 //Consultar elementos
-$sql_elementos = "SELECT * FROM elementos";
+$sql_elementos = "SELECT * FROM elementos 
+                    ORDER BY elementos ASC";
 $result_elementos = $conn->query($sql_elementos);
 
 //Consultar funcionario
-$sql_funcionario = "SELECT * FROM funcionario";
+$sql_funcionario = "SELECT * FROM funcionario
+                    ORDER BY funcionario ASC";
 $result_funcionario = $conn->query($sql_funcionario);
 
 //Consultar instructor
-$sql_instructor = "SELECT * FROM instructores";
+$sql_instructor = "SELECT * FROM instructores
+                    ORDER BY nombre ASC";
 $result_instructor = $conn->query($sql_instructor);
 
 //Consultar traspasos
@@ -235,4 +238,4 @@ if (isset($_GET['action']) && $_GET['action'] === 'eliminar' && isset($_GET['id'
     </section>
 
 </body>
-</html>
+</html> 
