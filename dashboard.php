@@ -15,7 +15,5 @@ include_once('./config/conection.php');
         <?php include(ROOT_PATH . '/includes/menuHamb.php') ?>
     </section>
 
-    <script src="<?php echo BASE_URL; ?>/js/index.js"></script>
-
 </body>
 </html>

@@ -92,10 +92,10 @@ $instructores = $conn->query("SELECT id, nombre FROM instructores");
 </head>
 
 <body class="dashAdm">
-<button type="button" class="btn-back"
-    onclick="window.location.href='<?= $_SESSION['return_to'] ?? 'index.php' ?>'">
-    ⬅ Volver
-</button>
+    <button type="button" class="btn-back"
+        onclick="window.location.href='<?= htmlspecialchars($_SESSION['return_to'] ?? '/CookManager/index.php');  ?>'">
+        ⬅ Volver
+    </button>
 
 <section class="module">
     <div>

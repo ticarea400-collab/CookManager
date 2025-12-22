@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$BASE_URL = 'http://localhost/COOKMANAGER';
+$BASE_URL = 'http://10.1.251.155/CookManager';
 $urlActual = $_SERVER['REQUEST_URI'];
 $path = $_SERVER['PHP_SELF'];
 

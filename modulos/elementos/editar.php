@@ -72,7 +72,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body class="dashAdm">
     <button type="button" class="btn-back"
-        onclick="window.location.href='<?= $_SESSION['return_to'] ?? 'index.php' ?>'">
+        onclick="window.location.href='<?= htmlspecialchars($_SESSION['return_to'] ?? '/CookManager/index.php'); ?>'">
         ⬅ Volver
     </button>
 

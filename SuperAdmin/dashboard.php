@@ -33,9 +33,6 @@ $nombre_user = $_SESSION['usuario'] ?? 'Usuario Desconocido';
 
     <h1>Bienvenido, <?= htmlspecialchars($nombre_user) ?></h1>
     <p>Gestión y control del sistema</p>
-
-    
-    <script src="<?php echo BASE_URL; ?>/js/index.js"></script>
     
 </body>
 </html>
